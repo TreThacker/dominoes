@@ -1,0 +1,177 @@
+<!--
+App Title: Dominoes
+Credits: Tre Thacker
+Year Created: 2026
+Version: 1.00
+Dedication: None
+-->
+
+<!-- <------------------------------------------------
+			CHANGELOG
+
+			Version 1.00 - Initial game creation.
+		 ------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dominoes</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="favicon.ico">
+	<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<!-- <------------------------------------------------
+			APP WRAPPER
+		 ------------------------------------------------->
+	<div class="app-wrapper" id="appWrapper">
+
+<!-- <------------------------------------------------
+			MAIN GAME LAYOUT
+		 ------------------------------------------------->
+		<main class="game-shell">
+			<section class="center-panel" aria-label="Dominoes game board">
+				<div class="board-area" id="boardArea">
+					<h1 class="board-title" id="appTitle">Dominoes</h1>
+
+					<button class="options-gear-button" id="optionsButton" type="button" aria-label="Options">
+						⚙
+					</button>
+
+					<div class="board-score-text">
+						<h2>Scores</h2>
+						<div class="score-list" id="scoreList"></div>
+					</div>
+
+					<div class="board-bone-count-text">
+						<h2>Bone Count</h2>
+						<div class="bone-count-list" id="boneCountList"></div>
+					</div>
+
+					<div class="board-boneyard-text">
+						<h2>Boneyard</h2>
+						<p id="boneyardCount">0</p>
+					</div>
+
+					<div class="chain-score-text" id="chainScoreText">Table Score: 0</div>
+
+					<div class="board-log-text">
+						<h2>Game Log</h2>
+						<div class="game-log-divider"></div>
+						<div class="game-log" id="gameLog" aria-live="polite"></div>
+					</div>
+
+					<div class="board-track" id="boardTrack"></div>
+				</div>
+
+				<div class="player-hand-area">
+					<div class="player-hand-content">
+						<h2 id="humanPlayerName">Player 1</h2>
+						<div class="player-hand" id="playerHand"></div>
+					</div>
+
+					<div class="player-hand-actions">
+						<button class="primary-button" id="drawButton" type="button" disabled>Draw</button>
+						<button class="primary-button" id="passButton" type="button" disabled>Pass</button>
+					</div>
+				</div>
+			</section>
+		</main>
+
+<!-- <------------------------------------------------
+			MODAL WINDOWS
+		 ------------------------------------------------->
+		<div class="modal-overlay hidden" id="modalOverlay">
+			<div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+				<div class="modal-header">
+					<h2 id="modalTitle">Window</h2>
+					<button class="small-button" id="closeModalButton" type="button">Close</button>
+				</div>
+
+				<div class="modal-body" id="modalBody">
+					<div class="options-control-row">
+						<label for="playerNameInput">Player Name</label>
+						<input id="playerNameInput" type="text" value="Player 1" maxlength="7">
+					</div>
+
+					<div class="options-control-row setup-row">
+						<div class="player-count-control">
+							<label for="playerCountSelect">Players</label>
+
+							<div class="player-slider-row">
+								<input
+									id="playerCountSelect"
+									type="range"
+									min="2"
+									max="4"
+									step="1"
+									value="2"
+								>
+
+								<span id="playerCountDisplay">2</span>
+							</div>
+						</div>
+
+						<div class="winning-score-control">
+							<label for="winningScoreSelect">Winning Score</label>
+
+							<select id="winningScoreSelect">
+								<option value="250">250</option>
+								<option value="500" selected>500</option>
+								<option value="1000">1000</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="options-control-row theme-select-control">
+						<label for="themeSelect">Theme</label>
+
+						<select id="themeSelect">
+							<option value="classic" selected>Classic</option>
+							<option value="midnight">Midnight</option>
+							<option value="sunset">Sunset</option>
+							<option value="forest">Forest</option>
+						</select>
+					</div>
+
+					<button
+						id="startGameButton"
+						class="primary-button options-control-row"
+						type="button"
+					>
+						New Game
+					</button>
+
+					<button
+						id="rewardsButton"
+						class="primary-button options-control-row"
+						type="button"
+					>
+						Rewards
+					</button>
+
+					<button
+						id="optionsHelpButton"
+						class="primary-button options-control-row"
+						type="button"
+					>
+						Help
+					</button>
+
+					<button
+						id="adminButton"
+						class="primary-button options-control-row"
+						type="button"
+					>
+						Admin
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="app.js"></script>
+</body>
+</html>
