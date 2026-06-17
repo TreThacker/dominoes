@@ -18,7 +18,8 @@ A browser-based Dominoes game by Tre Thacker
 
 **Dominoes** is a browser-based domino game built with plain HTML, CSS, and JavaScript.
 
-Version 1.00 combines **Base (Block) Dominoes**, **Cross Dominoes**, and **All Fives scoring** into a complete playable experience featuring AI opponents, local save data, backup tools, theme selection, admin utilities, testing tools, and a comprehensive in-game Help system.
+- Version 1.00 combines **Base (Block) Dominoes**, **Cross Dominoes**, and **All Fives scoring** into a complete playable experience featuring AI opponents, local save data, backup tools, theme selection, admin utilities, testing tools, and a comprehensive in-game Help system.
+- Version 1.10 adds tablet/touch screen support. 
 
 ---
 
@@ -60,12 +61,13 @@ Version 1.00 combines **Base (Block) Dominoes**, **Cross Dominoes**, and **All F
 - Admin tools
 - Sandbox testing tools
 - Segment alignment tool
+- Touch screen support
 
 ---
 
 ## 🏆 Active Rule Set
 
-Version 1.00 currently includes:
+Version 1.10 currently includes:
 
 | Rule / Variation | Status |
 | --- | --- |
@@ -191,7 +193,7 @@ Planned or possible future enhancements include:
 
 ## 🗺️ Roadmap
 
-### Version 1.00
+### Version 1.10
 
 - ✅ Base (Block) Dominoes
 - ✅ Cross Dominoes
@@ -203,6 +205,7 @@ Planned or possible future enhancements include:
 - ✅ Admin Tools
 - ✅ Sandbox Tools
 - ✅ Alignment Tools
+- ✅ Touch Screen Support
 
 ### Future Versions
 
@@ -227,6 +230,13 @@ Planned or possible future enhancements include:
 
 No external frameworks are required.
 
+## 🛠️ Tested On
+
+- (Primary) 14" Windows 10 PC with screen pixel resolution of 1920 x 1080.
+- 12.9" iPad Pro with screen pixel resolution of 2732 x 2048 pixels.
+- 10.2" 9th Gen iPad with screen pixel reolution of 2160 x 1620 pixels.
+- Version 1.10 not tested on cell phones.
+
 ---
 
 ## 👤 Credits
@@ -243,4 +253,4 @@ TreThacker 2026
 
 ## 📌 Version
 
-Current Release: **Version 1.00**
+Current Release: **Version 1.10**

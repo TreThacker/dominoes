@@ -2,13 +2,13 @@
 App Title: Dominoes
 Credits: Tre Thacker
 Year Created: 2026
-Version: 1.00
+Version: 1.10
 Dedication: None
 */
 
 /* <------------------------------------------------
       CHANGELOG
-
+      Version 1.10 - Tablet support added.
       Version 1.00 - Initial game creation.
    -------------------------------------------------> */
 
@@ -18,7 +18,7 @@ Dedication: None
 const APP_TITLE = "Dominoes";
 const APP_CREDITS = "Tre Thacker";
 const APP_YEAR = "2026";
-const APP_VERSION = "1.00";
+const APP_VERSION = "1.10";
 const APP_DEDICATION = "None";
 
 const DATABASE_NAME = "DominoesGameDatabase";
@@ -65,6 +65,8 @@ const DEFAULT_GAME_STATE = {
 let db = null;
 let draggedDominoId = null;
 let selectedBoardEnd = null;
+let touchDragGhost = null;
+let touchDragTarget = null;
 let optionsModalContent = "";
 let gameState = structuredClone(DEFAULT_GAME_STATE);
 
@@ -629,9 +631,131 @@ function createDominoElement(domino, isDraggable = false, displayDirection = "ve
 			clearBoardEndHighlights();
 			renderChainScore();
 		});
+
+		dominoElement.addEventListener("pointerdown", event => {
+			startTouchDominoDrag(event, domino, dominoElement);
+		});
 	}
 
 	return dominoElement;
+}
+
+/* <------------------------------------------------
+      TOUCH DRAG SUPPORT
+   -------------------------------------------------> */
+function startTouchDominoDrag(event, domino, dominoElement) {
+	if (event.pointerType === "mouse") {
+		return;
+	}
+
+	event.preventDefault();
+
+	draggedDominoId = domino.id;
+	selectedBoardEnd = null;
+	touchDragTarget = null;
+
+	highlightValidBoardEnds(domino);
+	createTouchDragGhost(dominoElement, event.clientX, event.clientY);
+
+	window.addEventListener("pointermove", moveTouchDominoDrag);
+	window.addEventListener("pointerup", endTouchDominoDrag);
+	window.addEventListener("pointercancel", cancelTouchDominoDrag);
+}
+
+function createTouchDragGhost(dominoElement, clientX, clientY) {
+	touchDragGhost = dominoElement.cloneNode(true);
+	touchDragGhost.classList.add("touch-drag-ghost");
+	document.body.appendChild(touchDragGhost);
+	moveTouchDragGhost(clientX, clientY);
+}
+
+function moveTouchDominoDrag(event) {
+	if (!draggedDominoId || !touchDragGhost) {
+		return;
+	}
+
+	event.preventDefault();
+	moveTouchDragGhost(event.clientX, event.clientY);
+	updateTouchDragTarget(event);
+}
+
+function moveTouchDragGhost(clientX, clientY) {
+	touchDragGhost.style.left = `${clientX}px`;
+	touchDragGhost.style.top = `${clientY}px`;
+}
+
+function updateTouchDragTarget(event) {
+	const targetElement = document
+		.elementsFromPoint(event.clientX, event.clientY)
+		.find(element => element.classList?.contains("valid-target-domino"));
+
+	if (targetElement === touchDragTarget) {
+		return;
+	}
+
+	touchDragTarget = targetElement || null;
+	clearSelectedBoardEnd();
+
+	if (!touchDragTarget) {
+		selectedBoardEnd = null;
+		renderChainScore();
+		return;
+	}
+
+	selectedBoardEnd = getSelectedBoardEndFromTarget(touchDragTarget, event);
+
+	if (isSpinnerSideChoiceTarget(touchDragTarget)) {
+		touchDragTarget.classList.add(
+			"selected-spinner-side-target",
+			`selected-spinner-side-${selectedBoardEnd}`
+		);
+	} else {
+		touchDragTarget.classList.add("selected-target-domino");
+	}
+
+	const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+	const draggedDomino = currentPlayer.hand.find(domino => domino.id === draggedDominoId);
+
+	if (draggedDomino) {
+		renderChainScore(getPreviewBoardEndTotal(draggedDomino, selectedBoardEnd));
+	}
+}
+
+function endTouchDominoDrag(event) {
+	event.preventDefault();
+
+	if (
+		draggedDominoId &&
+		touchDragTarget &&
+		touchDragTarget.classList.contains("valid-target-domino") &&
+		selectedBoardEnd
+	) {
+		placeDominoOnBoard(draggedDominoId, selectedBoardEnd);
+	}
+
+	cleanupTouchDominoDrag();
+}
+
+function cancelTouchDominoDrag() {
+	cleanupTouchDominoDrag();
+}
+
+function cleanupTouchDominoDrag() {
+	if (touchDragGhost) {
+		touchDragGhost.remove();
+	}
+
+	touchDragGhost = null;
+	touchDragTarget = null;
+	draggedDominoId = null;
+	selectedBoardEnd = null;
+
+	clearBoardEndHighlights();
+	renderChainScore();
+
+	window.removeEventListener("pointermove", moveTouchDominoDrag);
+	window.removeEventListener("pointerup", endTouchDominoDrag);
+	window.removeEventListener("pointercancel", cancelTouchDominoDrag);
 }
 
 /* <------------------------------------------------

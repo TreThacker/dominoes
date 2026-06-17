@@ -2,14 +2,14 @@
 App Title: Dominoes
 Credits: Tre Thacker
 Year Created: 2026
-Version: 1.00
+Version: 1.10
 Dedication: None
 */
 
 /* <------------------------------------------------
       SERVICE WORKER CACHE SETTINGS
    -------------------------------------------------> */
-const CACHE_NAME = "dominoes-cache-v1-00";
+const CACHE_NAME = "dominoes-cache-v1-10";
 
 const CORE_ASSETS = [
 	"./",
